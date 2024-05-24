@@ -1,5 +1,6 @@
 package com.example.demo.jwt;
 
+import com.example.demo.exception.CommonException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = response.getWriter();
-        writer.println("Access Denied !! " + authException.getMessage());
+        writer.println("Access Denied " + authException.getMessage());
     }
 }

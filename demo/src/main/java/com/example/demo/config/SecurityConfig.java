@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -21,16 +21,24 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter filter;
 
-    @Bean
+            @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable().cors().disable()
+        return http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests()
-                .requestMatchers("/students/auth").permitAll().anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .requestMatchers("/students/auth","/products/**","/actuator/test").permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(point)
                 .and()
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        HttpSecurity httpSecurity = http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).
+//                authorizeHttpRequests((authorization) ->
+//                        authorization.requestMatchers("/students/auth", "/products/**", "/actuator").permitAll()
+//                                .anyRequest().authenticated()
+//                );
+//        return httpSecurity.build();
+//    }
 }

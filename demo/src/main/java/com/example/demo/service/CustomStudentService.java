@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomStudentService implements UserDetailsService {
     @Autowired
-    private StudentRepository studentRepository; // Assuming you have a repository for Student entity
+    private StudentRepository studentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

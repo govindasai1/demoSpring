@@ -7,6 +7,7 @@ import com.example.demo.exception.CommonException;
 import com.example.demo.helper.Helper;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class StudentService implements StudentInterface {
-    private static final Logger log = LoggerFactory.getLogger(StudentService.class);
+//    private static final Logger log = LoggerFactory.getLogger(StudentService.class);
     @Autowired
     private StudentRepository studentRepo;
     @Autowired
@@ -37,7 +39,6 @@ public class StudentService implements StudentInterface {
     public Student getStudent(String stringUuid) {
         UUID uuid = UUID.fromString(stringUuid);
         Student list = studentRepo.findById(uuid).orElse(null);
-
         if (list == null) {
             throw new CommonException("student not found .......");
         }
